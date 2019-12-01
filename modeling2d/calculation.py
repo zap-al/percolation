@@ -2,12 +2,12 @@ import random
 
 import numpy as np
 
-from modeling2d.visualize import BUSY, EMPTY
+from modeling2d.visualize import EMPTY
 
 NOT_CHECKED = -1
 
 
-def split_on_clusters(grid, verbose=False):
+def split_on_clusters(grid, verbose=False, normalize=False):
     grid_len = len(grid)
     last_cluster_number = 1
     cluster_dict = {}
@@ -92,14 +92,55 @@ def split_on_clusters(grid, verbose=False):
     for i in range(len(values)):
         grid = np.where(grid == values[i], i, grid)
 
+    if normalize:
+        grid = np.divide(grid, grid.max())
+
     return grid
 
 
-def get_random_fill_grid(probability: float, grid_size: int):
+def get_random_fill_grid(probability: float, grid_size: int, variant1: int, variant2: int):
     grid = np.zeros((grid_size, grid_size), int)
 
     for i in range(grid_size):
         for j in range(grid_size):
-            grid[i][j] = NOT_CHECKED if random.random() < probability else EMPTY
+            grid[i][j] = variant1 if random.random() < probability else variant2
 
     return grid
+
+
+def drop_cluster_lower_than(grid, lowest: int, normalize=True):
+    values, counts = np.unique(grid, return_counts=True)
+
+    for i in range(len(values)):
+        if counts[i] < lowest:
+            grid = np.where(grid == values[i], 0, grid)
+
+    values = np.unique(grid)
+    for i in range(len(values)):
+        grid = np.where(grid == values[i], i, grid)
+
+    if normalize:
+        max_val = grid.max()
+        if max_val != 0 :
+            grid = np.divide(grid, max_val)
+
+    return grid
+
+
+def drop_not_conductive_clusters(grid):
+    grid_len = len(grid)
+    left_border = grid[:, 0]
+    right_border = grid[:, grid_len - 1]
+
+    intersection = np.intersect1d(left_border, right_border)
+    intersection = np.delete(intersection, 0)
+    print(intersection)
+
+    for i in range(grid_len):
+        for j in range(grid_len):
+            grid[i][j] = grid[i][j] if intersection.__contains__(grid[i][j]) else 0
+
+    grid = np.where(grid == -1, 1, grid)
+
+    return grid
+
