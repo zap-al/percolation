@@ -88,6 +88,10 @@ def split_on_clusters(grid, verbose=False):
                 print("===================================================================")
                 print("\n")
 
+    values = np.unique(grid)
+    for i in range(len(values)):
+        grid = np.where(grid == values[i], i, grid)
+
     return grid
 
 
