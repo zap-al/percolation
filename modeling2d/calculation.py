@@ -1,4 +1,6 @@
+import math
 import random
+from copy import deepcopy
 
 import numpy as np
 
@@ -7,13 +9,10 @@ from modeling2d.visualize import EMPTY
 NOT_CHECKED = -1
 
 
-def split_on_clusters(grid, verbose=False, normalize=False):
+def split_on_clusters(grid, verbose=False):
     grid_len = len(grid)
     last_cluster_number = 1
     cluster_dict = {}
-
-    for i in range(grid_len ** 2):
-        cluster_dict[i] = []
 
     for i in range(0, grid_len):
         for j in range(0, grid_len):
@@ -44,7 +43,7 @@ def split_on_clusters(grid, verbose=False, normalize=False):
                                 left_cluster.append(each)
                                 if verbose:
                                     print(str(each) + " -> " + str(left_val))
-                            cluster_dict[top_val] = []
+                            del cluster_dict[top_val]
                             left_cluster.append((i, j))
                             cluster_dict[left_val] = left_cluster
                             grid[i][j] = left_val
@@ -54,7 +53,7 @@ def split_on_clusters(grid, verbose=False, normalize=False):
                                 top_cluster.append(each)
                                 if verbose:
                                     print(str(each) + " -> " + str(top_val))
-                            cluster_dict[left_val] = []
+                            del cluster_dict[left_val]
                             top_cluster.append((i, j))
                             cluster_dict[top_val] = top_cluster
                             grid[i][j] = top_val
@@ -77,9 +76,8 @@ def split_on_clusters(grid, verbose=False, normalize=False):
                     cluster_dict[val] = cluster
                 else:
                     grid[i][j] = last_cluster_number
-                    cluster = cluster_dict[grid[i][j]]
-                    cluster.append((i, j))
-                    cluster_dict[grid[i][j]] = cluster
+                    new_cluster = [(i, j)]
+                    cluster_dict[grid[i][j]] = new_cluster
                     last_cluster_number += 1
 
             if verbose:
@@ -88,17 +86,19 @@ def split_on_clusters(grid, verbose=False, normalize=False):
                 print("===================================================================")
                 print("\n")
 
-    values = np.unique(grid)
-    for i in range(len(values)):
-        grid = np.where(grid == values[i], i, grid)
+    keys = list(cluster_dict.keys())
+    new_cluster_dict = {}
 
-    if normalize:
-        grid = np.divide(grid, grid.max())
+    for i in range(len(keys)):
+        arr = cluster_dict[keys[i]]
+        for each in arr:
+            grid[each[0]][each[1]] = i + 1
+        new_cluster_dict[i + 1] = cluster_dict[keys[i]]
 
-    return grid
+    return new_cluster_dict
 
 
-def get_random_fill_grid(probability: float, grid_size: int, variant1: int, variant2: int):
+def get_grid(grid_size: int, probability=0., variant1=EMPTY, variant2=EMPTY):
     grid = np.zeros((grid_size, grid_size), int)
 
     for i in range(grid_size):
@@ -108,39 +108,59 @@ def get_random_fill_grid(probability: float, grid_size: int, variant1: int, vari
     return grid
 
 
-def drop_cluster_lower_than(grid, lowest: int, normalize=True):
+def drop_cluster_lower_than(grid, dictionary, lowest: int):
     values, counts = np.unique(grid, return_counts=True)
 
     for i in range(len(values)):
         if counts[i] < lowest:
             grid = np.where(grid == values[i], 0, grid)
+            del dictionary[values[i]]
 
     values = np.unique(grid)
     for i in range(len(values)):
         grid = np.where(grid == values[i], i, grid)
 
-    if normalize:
-        max_val = grid.max()
-        if max_val != 0 :
-            grid = np.divide(grid, max_val)
-
-    return grid
+    return grid, dictionary
 
 
-def drop_not_conductive_clusters(grid):
-    grid_len = len(grid)
-    left_border = grid[:, 0]
-    right_border = grid[:, grid_len - 1]
+def drop_not_conductive_clusters_dict(dict_init, grid_size):
+    dictionary = deepcopy(dict_init)
+    res_dict = {}
 
-    intersection = np.intersect1d(left_border, right_border)
-    intersection = np.delete(intersection, 0)
-    print(intersection)
+    for key in dictionary.keys():
+        contains_left = False
+        contains_right = False
 
-    for i in range(grid_len):
-        for j in range(grid_len):
-            grid[i][j] = grid[i][j] if intersection.__contains__(grid[i][j]) else 0
+        for val in dictionary[key]:
+            if val[1] == 0:
+                contains_left = True
+            if val[1] == (grid_size - 1):
+                contains_right = True
 
-    grid = np.where(grid == -1, 1, grid)
+        if contains_left & contains_right:
+            res_dict[key] = dictionary[key]
 
-    return grid
+    return res_dict
+
+
+def calculate_clusters_diameters(clusters_dict, min_diameter):
+    keys = list(clusters_dict.keys())
+    big_clusters = {}
+
+    for key in keys:
+        arr = clusters_dict[key]
+        max_dist = 0
+
+        for i in range(len(arr)):
+            for j in range(i + 1, len(arr)):
+                distance = math.sqrt(((arr[i][0]-arr[j][0])**2)+((arr[i][1]-arr[j][1])**2))
+                if distance > max_dist:
+                    max_dist = distance
+
+        if max_dist > min_diameter:
+            big_clusters[key] = arr
+
+    return big_clusters
+
+
 
