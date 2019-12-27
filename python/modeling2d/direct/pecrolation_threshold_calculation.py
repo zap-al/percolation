@@ -2,9 +2,9 @@ import time
 
 from numpy import linspace
 
-from modeling2d.calculation import split_on_clusters, get_grid, NOT_CHECKED, drop_cluster_lower_than
-from modeling2d.common import find_max_derivative
-from modeling2d.visualize import map_dict_on_grid, EMPTY
+from python.modeling2d.direct.calculation import split_on_clusters, get_grid, NOT_CHECKED
+from python.modeling2d.corn.calculation import find_max_derivative
+from python.modeling2d.direct.visualize import EMPTY
 import matplotlib.pyplot as plt
 
 

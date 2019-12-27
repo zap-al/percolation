@@ -3,18 +3,19 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
-from modeling2d.calculation import split_on_clusters, get_grid, NOT_CHECKED, drop_cluster_lower_than, \
+from python.modeling2d.direct.calculation import split_on_clusters, get_grid, NOT_CHECKED, drop_cluster_lower_than, \
     calculate_clusters_diameters, drop_not_conductive_clusters_dict
-from modeling2d.visualize import draw_array_as_grid, map_dict_on_grid, EMPTY
+from python.modeling2d.direct.visualize import draw_array_as_grid, map_dict_on_grid, EMPTY
 
-grid_size = 50
-probability = 0.01
+grid_size = 10
+probability = 0.4
 min_diameter = grid_size * 0.8
 
 init_grid = get_grid(grid_size, probability, variant1=NOT_CHECKED, variant2=EMPTY)
 
 start = time.time()
 clustered_grid_dict = split_on_clusters(init_grid, verbose=False)
+
 empty_grid = get_grid(grid_size)
 clustered_grid = map_dict_on_grid(empty_grid, clustered_grid_dict)
 draw_array_as_grid(figure="Split on clusters",

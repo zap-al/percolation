@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import numpy as np
 
-from modeling2d.visualize import EMPTY
+from python.modeling2d.direct.visualize import EMPTY
 
 NOT_CHECKED = -1
 
