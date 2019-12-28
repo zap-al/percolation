@@ -1,4 +1,4 @@
-package modeling2d;
+package modeling3d;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -6,8 +6,8 @@ import java.util.Set;
 
 import static java.lang.Math.random;
 
-public class Calculation3d {
-    public boolean[][] generate_3d_corn_cluster(int size, double probability) {
+public class Calculator3d {
+    public boolean[][][] generate_3d_corn_cluster(int size, double probability) {
         int mid = size / 2;
 
         Set<Point3d> current_step_set = new HashSet<>();
@@ -66,12 +66,12 @@ public class Calculation3d {
             }
         }
 
-        boolean[][] final_cube = new boolean[size][size];
+        boolean[][][] final_cube = new boolean[size][size][];
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 for (int k = 0; k < size; k++) {
-                    final_cube[i][j] = arr[i][j][k] == 1;
+                    final_cube[i][j][k] = arr[i][j][k] == 1;
                 }
             }
         }
@@ -104,9 +104,10 @@ class Point3d {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point2d point = (Point2d) o;
-        return x == point.x &&
-                y == point.y;
+        Point3d point3d = (Point3d) o;
+        return x == point3d.x &&
+                y == point3d.y &&
+                z == point3d.z;
     }
 
     @Override
