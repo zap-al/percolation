@@ -3,7 +3,7 @@ import time
 from numpy import linspace
 
 from python.modeling2d.direct.calculation import split_on_clusters, get_grid, NOT_CHECKED
-from python.modeling2d.corn.calculation import find_max_derivative
+from python.modeling2d.corn.without_shell.calculation import find_max_derivative
 from python.modeling2d.direct.visualize import EMPTY
 import matplotlib.pyplot as plt
 

@@ -3,7 +3,7 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-from python.modeling2d.corn.calculation import find_max_derivative, generate_2d_corn_cluster
+from python.modeling2d.corn.without_shell.calculation import find_max_derivative, generate_2d_corn_cluster_without_shell
 
 size = 10
 repeat_count = 1000
@@ -21,7 +21,7 @@ for probability in prob_arr:
 
     for i in range(repeat_count):
         stepStart = time.time()
-        arr = generate_2d_corn_cluster(size, probability)
+        arr = generate_2d_corn_cluster_without_shell(size, probability)
         uniq, counts = np.unique(arr, return_counts=True)
         uniq_dict = dict(zip(uniq, counts))
         sizeSumm += uniq_dict[1]
