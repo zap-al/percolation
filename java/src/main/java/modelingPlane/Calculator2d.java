@@ -1,4 +1,4 @@
-package modeling2d;
+package modelingPlane;
 
 import java.util.HashSet;
 import java.util.Objects;

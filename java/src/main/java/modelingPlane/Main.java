@@ -1,4 +1,4 @@
-package modeling2d;
+package modelingPlane;
 
 public class Main {
     public static void main(String[] args) {

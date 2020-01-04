@@ -1,6 +1,6 @@
 import com.comsol.model.Model;
 import com.comsol.model.util.ModelUtil;
-import modeling3d.Calculator3d;
+import modelingSurface.Calculator3d;
 
 public class Corn3dClusterCOMSOL {
     public static Model run() {
