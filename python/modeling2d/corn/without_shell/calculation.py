@@ -16,7 +16,7 @@ def find_max_derivative(array, step_count):
     return der * max_derivative_num
 
 
-def generate_2d_corn_cluster(size, probability):
+def generate_2d_corn_cluster_without_shell(size, probability):
     mid = int(size / 2)
 
     current_step_set = set()
@@ -52,3 +52,5 @@ def generate_2d_corn_cluster(size, probability):
             final_cube[i][j] = True if arr[i][j] == 1 else False
 
     return final_cube
+
+

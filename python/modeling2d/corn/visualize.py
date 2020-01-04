@@ -20,4 +20,4 @@ def draw_array_as_grid(figure, grid):
     if max_val != 0:
         grid = np.divide(grid, max_val)
 
-    plt.imshow(grid, cmap='binary', vmin=COLOR_WHITE, vmax=COLOR_BLACK)
+    plt.imshow(grid, cmap='binary', vmin=0, vmax=1)
