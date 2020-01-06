@@ -1,8 +1,8 @@
 import com.comsol.model.Model;
 import com.comsol.model.util.ModelUtil;
-import modelingSurface.Calculator3d;
+import modeling3d.Calculator3d;
 
-public class Corn3dClusterCOMSOL {
+public class Corn3dClusterWithoutShellCOMSOL {
     public static Model run() {
         int size = 10;
         double probability = 0.3;

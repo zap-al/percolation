@@ -1,4 +1,4 @@
-package modelingSurface;
+package modeling3d;
 
 import java.util.HashSet;
 import java.util.Objects;

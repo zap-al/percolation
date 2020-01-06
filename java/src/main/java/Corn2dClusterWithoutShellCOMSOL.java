@@ -1,10 +1,10 @@
 import com.comsol.model.Model;
 import com.comsol.model.util.ModelUtil;
-import modelingPlane.Calculator2d;
+import modeling2d.corn.with_shell.Calculator2d;
 
 import java.util.*;
 
-public class Corn2dClusterCOMSOL {
+public class Corn2dClusterWithoutShellCOMSOL {
     public static Model run() {
         int size = 10;
         double probability = 0.7;

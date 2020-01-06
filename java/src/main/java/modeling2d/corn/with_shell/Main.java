@@ -1,4 +1,4 @@
-package modelingPlane;
+package modeling2d.corn.with_shell;
 
 public class Main {
     public static void main(String[] args) {
