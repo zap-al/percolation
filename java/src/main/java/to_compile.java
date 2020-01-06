@@ -15,19 +15,18 @@ public class method1 extends ApplicationMethod {
         String textlabel1 = null;
         {
 
-            model.component().create("comp1", true);
 
+            model.component().remove("comp1");
+
+            model.component().create("comp1", true);
             model.component("comp1").geom().create("geom1", 2);
-            model.component("comp1").mesh().create("mesh1");
             model.component("comp1").geom("geom1").lengthUnit("km");
             model.component("comp1").geom("geom1").scaleUnitValue(true);
             model.component("comp1").geom("geom1").scaleUnitValue(false);
-            int size = 10;
-            double probability = 0.7;
 
             String SQUARE_NAME_STRING = "sq:%d-%d";
 
-            int mid = size / 2;
+            int mid = N / 2;
 
             Set<int[]> current_step_set = new HashSet<int[]>();
 
@@ -36,7 +35,7 @@ public class method1 extends ApplicationMethod {
             current_step_set.add(new int[]{mid, mid + 1});
             current_step_set.add(new int[]{mid, mid - 1});
 
-            float[][] arr = new float[size][size];
+            float[][] arr = new float[N][N];
             arr[mid][mid] = 1;
 
             Set<int[]> next_step_set = current_step_set;
@@ -45,9 +44,9 @@ public class method1 extends ApplicationMethod {
                 Set<int[]> next_set = new HashSet<int[]>();
 
                 for (int[] each : next_step_set) {
-                    if (random() < probability) {
+                    if (random() < p) {
                         arr[each[1]][each[0]] = 1;
-                        if (each[1] != (size - 1)) {
+                        if (each[1] != (N - 1)) {
                             if (arr[each[1] + 1][each[0]] == 0) {
                                 int[] new_point = new int[]{each[0], each[1] + 1};
 
@@ -84,7 +83,7 @@ public class method1 extends ApplicationMethod {
                                 }
                             }
                         }
-                        if (each[0] != (size - 1)) {
+                        if (each[0] != (N - 1)) {
                             if (arr[each[1]][each[0] + 1] == 0) {
                                 int[] new_point = new int[]{each[0] + 1, each[1]};
 
@@ -134,18 +133,18 @@ public class method1 extends ApplicationMethod {
                 next_step_set = next_set;
             }
 
-            boolean[][] grid = new boolean[size][size];
+            boolean[][] grid = new boolean[N][N];
 
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
                     grid[i][j] = arr[i][j] == 1;
                 }
             }
 
             List<String> nameList = new ArrayList<String>();
 
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
                     if (grid[i][j]) {
                         model.component("comp1").geom("geom1").create("sq:" + i + "-" + j, "Square");
                         model.component("comp1").geom("geom1").feature(String.format(SQUARE_NAME_STRING, i, j)).set("size", 1);
@@ -160,6 +159,7 @@ public class method1 extends ApplicationMethod {
             model.component("comp1").geom("geom1").create("uni1", "Union");
             model.component("comp1").geom("geom1").feature("uni1").set("intbnd", false);
             model.component("comp1").geom("geom1").feature("uni1").selection("input").set(strAr);
+            model.component("comp1").geom("geom1").run();
         }
         return textlabel1;
     }
