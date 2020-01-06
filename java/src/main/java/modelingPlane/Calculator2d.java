@@ -1,7 +1,6 @@
 package modelingPlane;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import static java.lang.Math.random;
@@ -65,37 +64,5 @@ public class Calculator2d {
         }
 
         return final_cube;
-    }
-}
-
-class Point2d {
-    Point2d(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int x;
-    public int y;
-
-    @Override
-    public String toString() {
-        return "modeling2d.Point2d{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Point2d point = (Point2d) o;
-        return x == point.x &&
-                y == point.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 }
