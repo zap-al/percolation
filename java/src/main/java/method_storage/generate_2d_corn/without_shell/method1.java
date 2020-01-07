@@ -1,4 +1,4 @@
-package builder;
+package method_storage.generate_2d_corn.without_shell;
 
 import com.comsol.api.ApplicationMethod;
 

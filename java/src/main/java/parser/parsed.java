@@ -1,4 +1,4 @@
-package builder;
+package parser;
 
 import com.comsol.api.ApplicationMethod;
 
