@@ -1,12 +1,10 @@
-package parser;
-
 import java.io.*;
 
 public class FromJavaClassToMethodCompiler {
     public static void main(String[] args) throws IOException {
-        String to_compile_path = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/parser/to_compile.java";
-        String to_write_compiled_path = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/parser/copy_of_method_modified.html";
-        String method_copy = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/parser/copy_of_method.html";
+        String to_compile_path = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/to_compile.java";
+        String to_write_compiled_path = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/copy_of_method_modified.html";
+        String method_copy = "/Users/me/programs/scala/workplace/percolation/java/src/main/java/copy_of_method.html";
         File file = new File(to_compile_path);
         File compiled_file = new File(to_write_compiled_path);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
